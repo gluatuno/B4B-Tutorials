@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Writing a Notebook That Grades Well &#8212; Creating and Publishing Jupyter Notebooks</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04-writing-good-notebooks';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Worked Example: A Small Bioinformatics Notebook" href="notebooks/05-example-notebook.html" />
+    <link rel="prev" title="Notebook Anatomy: Cells and Kernels" href="03-notebook-anatomy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Creating and Publishing Jupyter Notebooks</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-what-is-a-notebook.html">What Is a Jupyter Notebook?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-creating-notebooks-hcc.html">Creating a Notebook on HCC / Open OnDemand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-notebook-anatomy.html">Notebook Anatomy: Cells and Kernels</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Building Your Project Notebook</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Writing a Notebook That Grades Well</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05-example-notebook.html">Worked Example: A Small Bioinformatics Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-exporting-notebooks.html">Exporting and Submitting Your Notebook</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">For Instructors / TAs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="07-publishing-jupyter-book.html">Publishing a Jupyter Book (for instructors/TAs)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08-quick-reference.html">Quick Reference &amp; Troubleshooting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/04-writing-good-notebooks.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Writing a Notebook That Grades Well</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-mirror-your-paper-s-sections">Structure: mirror your paper’s sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-it-has-to-actually-run">Reproducibility: it has to actually run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-explain-the-why-not-just-the-what">Documentation: explain the <em>why</em>, not just the <em>what</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-generate-it-here-don-t-paste-it-in">Output: generate it here, don’t paste it in</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-use-the-course-environment">Platform: use the course environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-two-files-not-one">Submission: two files, not one</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="writing-a-notebook-that-grades-well">
+<h1>Writing a Notebook That Grades Well<a class="headerlink" href="#writing-a-notebook-that-grades-well" title="Permalink to this heading">#</a></h1>
+<p>This chapter expands on the six criteria in the
+<strong>Jupyter Notebook Requirements</strong> section of the Course Project
+Guideline: platform, structure, reproducibility, documentation, output,
+and submission. Each one below includes what it looks like done well and
+what it looks like done poorly.</p>
+<section id="structure-mirror-your-paper-s-sections">
+<h2>Structure: mirror your paper’s sections<a class="headerlink" href="#structure-mirror-your-paper-s-sections" title="Permalink to this heading">#</a></h2>
+<p>Use Markdown headers that match your written report, so a grader can move
+between the two without getting lost.</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># Project Title</span>
+
+<span class="gu">## Data &amp; Methods</span>
+...
+
+<span class="gu">## Results</span>
+...
+</pre></div>
+</div>
+<p>A notebook with no headers, or headers that don’t correspond to anything
+in your paper, forces the grader to reverse-engineer your logic. A
+notebook with clear section headers lets them check your work against
+your paper section by section.</p>
+</section>
+<section id="reproducibility-it-has-to-actually-run">
+<h2>Reproducibility: it has to actually run<a class="headerlink" href="#reproducibility-it-has-to-actually-run" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Run <strong>Kernel → Restart Kernel and Run All Cells</strong> before submitting
+(see <a class="reference internal" href="03-notebook-anatomy.html"><span class="doc std std-doc">Chapter 3</span></a>).</p></li>
+<li><p>Note tool and package versions somewhere near the top, e.g.:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">Bio</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bio</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Avoid paths that only exist on your account, like
+<code class="docutils literal notranslate"><span class="pre">/home/jsmith123/my_stuff/data.fasta</span></code>. If a file is small, keep it in
+the same project folder and use a relative path (<code class="docutils literal notranslate"><span class="pre">data/sequence.fasta</span></code>).
+If it’s a public dataset, download it inside the notebook (e.g. via
+<code class="docutils literal notranslate"><span class="pre">Bio.Entrez</span></code> or a direct URL) so the retrieval step is itself part of
+the reproducible record.</p></li>
+</ul>
+<p><strong>Weak:</strong> a notebook that only runs because of a variable you set by hand
+in the Python console last week and never wrote into a cell.</p>
+<p><strong>Strong:</strong> a notebook a classmate could open, run top to bottom, and get
+your figures.</p>
+</section>
+<section id="documentation-explain-the-why-not-just-the-what">
+<h2>Documentation: explain the <em>why</em>, not just the <em>what</em><a class="headerlink" href="#documentation-explain-the-why-not-just-the-what" title="Permalink to this heading">#</a></h2>
+<p>The code already shows <em>what</em> you did. Markdown cells are for <em>why</em> you
+did it and <em>what it means</em>.</p>
+<p><strong>Weak</strong> (code-only, no narration):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">pairwise2</span><span class="o">.</span><span class="n">align</span><span class="o">.</span><span class="n">globalxx</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Strong</strong> (same code, framed):</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">### Pairwise alignment of the candidate ORF against the reference</span>
+
+We align the two sequences globally, since we expect similarity across
+their full length rather than in a short local region.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Bio.Align</span><span class="w"> </span><span class="kn">import</span> <span class="n">PairwiseAligner</span>
+<span class="n">aligner</span> <span class="o">=</span> <span class="n">PairwiseAligner</span><span class="p">()</span>
+<span class="n">aligner</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;global&quot;</span>
+<span class="n">alignment</span> <span class="o">=</span> <span class="n">aligner</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">alignment</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>The alignment shows ~94% identity, consistent with the candidate ORF
+being a close homolog rather than a novel gene family.
+</pre></div>
+</div>
+<p>That last line — the interpretation — is often the single biggest
+difference between a notebook that reads as “I ran some commands” and one
+that reads as “I did an analysis.”</p>
+</section>
+<section id="output-generate-it-here-don-t-paste-it-in">
+<h2>Output: generate it here, don’t paste it in<a class="headerlink" href="#output-generate-it-here-don-t-paste-it-in" title="Permalink to this heading">#</a></h2>
+<p>Figures and tables should be produced by code in the notebook, not copied
+in from somewhere else (a screenshot, a different script, a spreadsheet
+you edited by hand). Label every figure and table and refer to it by
+number in your surrounding text, the same way you would in the paper
+itself.</p>
+</section>
+<section id="platform-use-the-course-environment">
+<h2>Platform: use the course environment<a class="headerlink" href="#platform-use-the-course-environment" title="Permalink to this heading">#</a></h2>
+<p>Develop and run on JupyterLab via HCC Open OnDemand
+(<code class="docutils literal notranslate"><span class="pre">swan-ood.unl.edu</span></code>, group <code class="docutils literal notranslate"><span class="pre">glu4class</span></code>) — see
+<a class="reference internal" href="02-creating-notebooks-hcc.html"><span class="doc std std-doc">Chapter 2</span></a>. This keeps everyone on the
+same package versions and avoids “works on my machine” problems.</p>
+</section>
+<section id="submission-two-files-not-one">
+<h2>Submission: two files, not one<a class="headerlink" href="#submission-two-files-not-one" title="Permalink to this heading">#</a></h2>
+<p>Submit <strong>both</strong>:</p>
+<ol class="arabic simple">
+<li><p>The live <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> file</p></li>
+<li><p>An exported PDF or HTML copy</p></li>
+</ol>
+<p>See <a class="reference internal" href="06-exporting-notebooks.html"><span class="doc std std-doc">Chapter 6</span></a> for how to export. The static
+copy is what a grader opens first; the live file is what they open if
+they need to check something by re-running it.</p>
+<div class="note admonition">
+<p class="admonition-title">Undergraduate vs. graduate expectations</p>
+<p>The mechanics in this chapter are the same for everyone. What differs by
+level is depth: graduate notebooks are expected to include more thorough
+interpretation, and where applicable, a brief discussion of algorithmic
+or parameter choices — not just more cells.</p>
+</div>
+<p>Next: <a class="reference internal" href="notebooks/05-example-notebook.html"><span class="doc std std-doc">Worked Example: A Small Bioinformatics Notebook</span></a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03-notebook-anatomy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Notebook Anatomy: Cells and Kernels</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="notebooks/05-example-notebook.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Worked Example: A Small Bioinformatics Notebook</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-mirror-your-paper-s-sections">Structure: mirror your paper’s sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-it-has-to-actually-run">Reproducibility: it has to actually run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-explain-the-why-not-just-the-what">Documentation: explain the <em>why</em>, not just the <em>what</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-generate-it-here-don-t-paste-it-in">Output: generate it here, don’t paste it in</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-use-the-course-environment">Platform: use the course environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-two-files-not-one">Submission: two files, not one</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Guoqing Lu, University of Nebraska Omaha
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
